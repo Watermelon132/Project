@@ -243,164 +243,127 @@
   </div>
 
   <script>
-    // Change your name here if you want it shown elsewhere later
-    const OWNER_NAME = "Sara";
+  const goals = [
+    { title:"Become valedictorian of my engineering cohort", tags:["Academic","Leadership","UQ"], note:"Show up early, build lecturer relationships, ship standout work.", query:"graduation university engineering award", shape:"tall" },
+    { title:"Reach my fitness goals: 50 kg + visible muscle definition", tags:["Gym","Tennis","Pilates","Sport"], note:"Train like an athlete: strength + mobility + consistency.", query:"fitness gym women training tennis pilates", shape:"wide" },
+    { title:"Find a suitable graduate job (Pilbara mines)", tags:["Career","Mining","Automation"], note:"Apply early. Strong portfolio. Clear relocation story.", query:"mining industrial automation engineering australia", shape:"tall" },
+    { title:"Write an amazing master’s thesis", tags:["Thesis","Research","Focus"], note:"Weekly milestones. Keep scope tight. Document everything.", query:"research writing study lab engineering", shape:"" },
+    { title:"Travel for uni purposes 2–3 times", tags:["Uni","Networking","Opportunities"], note:"Say yes to the rooms that change your trajectory.", query:"conference university networking travel", shape:"wide" },
+    { title:"Travel to Europe + NZ with family", tags:["Family","Europe","New Zealand"], note:"Plan early, book smart, collect memories not stress.", query:"europe travel family city architecture", shape:"" },
+    { title:"Plan a trip with a friend", tags:["Friendship","Fun","Adventure"], note:"Pick dates first. Then choose the place. Keep it simple.", query:"friends travel roadtrip adventure", shape:"tall" },
+    { title:"Publish my first paper/article", tags:["Publication","Impact","Credibility"], note:"One strong story. Clean results. Ruthless editing.", query:"science journal paper publication research", shape:"" },
+    { title:"Invest: buy a house + ETFs", tags:["Wealth","Property","ETFs"], note:"Automate investing. Track cashflow. Learn the numbers.", query:"finance investment property realestate stockmarket", shape:"wide" },
+    { title:"Learn to work on cars", tags:["Skills","Hands-on","Mechanics"], note:"Start with tools, safety, fluids, brakes, diagnostics.", query:"car mechanic garage tools engine", shape:"tall" }
+  ];
 
-    // Add / edit goals here
-    const goals = [
-      {
-        title: "Become valedictorian of my engineering cohort",
-        tags: ["Academic", "Leadership", "UQ"],
-        note: "Show up early, build lecturer relationships, and ship standout work.",
-        query: "graduation,university,engineering,award",
-        shape: "tall"
-      },
-      {
-        title: "Reach my fitness goals: 50 kg + visible muscle definition",
-        tags: ["Gym", "Tennis", "Pilates", "Sport"],
-        note: "Train like an athlete: strength + mobility + consistency.",
-        query: "gym,fitness,women,training,tennis,pilates",
-        shape: "wide"
-      },
-      {
-        title: "Find a suitable graduate job (Pilbara mines)",
-        tags: ["Career", "Mining", "Automation"],
-        note: "Applications early, strong portfolio, and clear relocation story.",
-        query: "mining,industrial,automation,engineering,australia",
-        shape: "tall"
-      },
-      {
-        title: "Write an amazing master’s thesis",
-        tags: ["Thesis", "Research", "Focus"],
-        note: "Weekly milestones. Keep the scope tight. Document everything.",
-        query: "research,writing,study,lab,engineering",
-        shape: ""
-      },
-      {
-        title: "Travel for uni purposes 2–3 times",
-        tags: ["Uni", "Networking", "Opportunities"],
-        note: "Say yes to the rooms that change your trajectory.",
-        query: "conference,university,networking,travel",
-        shape: "wide"
-      },
-      {
-        title: "Travel to Europe + NZ with family",
-        tags: ["Family", "Europe", "New Zealand"],
-        note: "Plan early, book smart, collect memories not stress.",
-        query: "europe,travel,family,city,architecture",
-        shape: ""
-      },
-      {
-        title: "Plan a trip with a friend",
-        tags: ["Friendship", "Fun", "Adventure"],
-        note: "Pick dates first. Then choose the place. Keep it simple.",
-        query: "friends,travel,roadtrip,adventure",
-        shape: "tall"
-      },
-      {
-        title: "Publish my first paper/article",
-        tags: ["Publication", "Impact", "Credibility"],
-        note: "One strong story, clean results, and ruthless editing.",
-        query: "science,journal,paper,publication,research",
-        shape: ""
-      },
-      {
-        title: "Invest: buy a house + ETFs",
-        tags: ["Wealth", "Property", "ETFs"],
-        note: "Automate investing. Track cashflow. Learn the numbers.",
-        query: "finance,investment,property,realestate,stockmarket",
-        shape: "wide"
-      },
-      {
-        title: "Learn to work on cars",
-        tags: ["Skills", "Hands-on", "Mechanics"],
-        note: "Start with basics: tools, safety, fluids, brakes, diagnostics.",
-        query: "car,mechanic,garage,tools,engine",
-        shape: "tall"
-      }
-    ];
+  const boardEl = document.getElementById("board");
+  const searchEl = document.getElementById("search");
+  const refreshEl = document.getElementById("refresh");
 
-    const boardEl = document.getElementById("board");
-    const searchEl = document.getElementById("search");
-    const refreshEl = document.getElementById("refresh");
+  // robust image sources
+  function sourcesFor(goal, seed){
+    const q = encodeURIComponent(goal.query);
+    // 1) Picsum: extremely reliable (random beautiful photos, not query-based)
+    const picsumId = (seed % 1000) + 1;
+    const picsum = `https://picsum.photos/id/${picsumId}/1200/900`;
 
-    // Uses Unsplash Source to pull an on-theme photo without needing an API key.
-    // We add a cache-buster so refresh changes images.
-    function imageUrlFor(query, seed){
-    // Uses Unsplash "featured" endpoint via the CDN, tends to load more reliably
-    const q = encodeURIComponent(query);
-    return `https://images.unsplash.com/featured/?${q}&sig=${seed}`;
+    // 2) Unsplash source (query-based) – may be blocked by extensions
+    const unsplashSource = `https://source.unsplash.com/1200x900/?${q}&sig=${seed}`;
+
+    // 3) Final fallback placeholder
+    const placeholder = `https://placehold.co/1200x900/png?text=${encodeURIComponent(goal.title)}`;
+
+    return [picsum, unsplashSource, placeholder];
   }
 
-    function makeCard(goal, idx){
-      const card = document.createElement("article");
-      card.className = `card ${goal.shape || ""}`.trim();
-      card.dataset.search = `${goal.title} ${goal.tags.join(" ")} ${goal.note}`.toLowerCase();
+  function setImageWithFallback(imgEl, urls){
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) return;
+      const url = urls[i++];
+      imgEl.src = url;
+    };
+    imgEl.onerror = tryNext;
+    tryNext();
+  }
 
-      const img = document.createElement("img");
-      img.className = "img";
-      img.alt = goal.title;
-      img.loading = "lazy";
-      img.referrerPolicy = "no-referrer";
-      img.src = imageUrlFor(goal.query, Date.now() + idx);
+  function makeCard(goal, idx){
+    const card = document.createElement("article");
+    card.className = `card ${goal.shape || ""}`.trim();
+    card.dataset.search = `${goal.title} ${goal.tags.join(" ")} ${goal.note}`.toLowerCase();
 
-      const overlay = document.createElement("div");
-      overlay.className = "overlay";
+    // gradient “skeleton” while image loads
+    card.style.background = `
+      radial-gradient(800px 500px at 10% 10%, rgba(255,255,255,.10), transparent 45%),
+      linear-gradient(135deg, rgba(124,58,237,.25), rgba(34,197,94,.18), rgba(96,165,250,.20))
+    `;
 
-      const content = document.createElement("div");
-      content.className = "content";
+    const img = document.createElement("img");
+    img.className = "img";
+    img.alt = goal.title;
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
 
-      const tagrow = document.createElement("div");
-      tagrow.className = "tagrow";
-      goal.tags.forEach(t => {
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = t;
-        tagrow.appendChild(tag);
-      });
+    const seed = (Date.now() + idx * 97) % 100000;
+    const urls = sourcesFor(goal, seed);
+    setImageWithFallback(img, urls);
 
-      const h = document.createElement("p");
-      h.className = "goal";
-      h.textContent = goal.title;
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
 
-      const note = document.createElement("p");
-      note.className = "note";
-      note.textContent = goal.note;
+    const content = document.createElement("div");
+    content.className = "content";
 
-      content.appendChild(tagrow);
-      content.appendChild(h);
-      content.appendChild(note);
+    const tagrow = document.createElement("div");
+    tagrow.className = "tagrow";
+    goal.tags.forEach(t => {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = t;
+      tagrow.appendChild(tag);
+    });
 
-      card.appendChild(img);
-      card.appendChild(overlay);
-      card.appendChild(content);
+    const h = document.createElement("p");
+    h.className = "goal";
+    h.textContent = goal.title;
 
-      // click to open image in new tab (optional)
-      card.addEventListener("click", () => window.open(img.src, "_blank", "noopener,noreferrer"));
+    const note = document.createElement("p");
+    note.className = "note";
+    note.textContent = goal.note;
 
-      return card;
-    }
+    content.appendChild(tagrow);
+    content.appendChild(h);
+    content.appendChild(note);
 
-    function render(){
-      boardEl.innerHTML = "";
-      goals.forEach((g, i) => boardEl.appendChild(makeCard(g, i)));
-    }
+    card.appendChild(img);
+    card.appendChild(overlay);
+    card.appendChild(content);
 
-    function filterBoard(text){
-      const q = text.trim().toLowerCase();
-      const cards = boardEl.querySelectorAll(".card");
-      cards.forEach(card => {
-        const hit = card.dataset.search.includes(q);
-        card.style.display = hit ? "" : "none";
-      });
-    }
+    // Optional: click opens current image
+    card.addEventListener("click", () => window.open(img.src, "_blank", "noopener,noreferrer"));
 
-    // Events
-    searchEl.addEventListener("input", (e) => filterBoard(e.target.value));
-    refreshEl.addEventListener("click", render);
+    return card;
+  }
 
-    // Init
-    render();
-  </script>
+  function render(){
+    boardEl.innerHTML = "";
+    goals.forEach((g, i) => boardEl.appendChild(makeCard(g, i)));
+  }
+
+  function filterBoard(text){
+    const q = text.trim().toLowerCase();
+    const cards = boardEl.querySelectorAll(".card");
+    cards.forEach(card => {
+      const hit = card.dataset.search.includes(q);
+      card.style.display = hit ? "" : "none";
+    });
+  }
+
+  searchEl.addEventListener("input", (e) => filterBoard(e.target.value));
+  refreshEl.addEventListener("click", render);
+
+  render();
+</script>
+
 </body>
 </html>
