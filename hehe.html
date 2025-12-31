@@ -1,436 +1,369 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Anthony! 🎉</title>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sara’s 2026 Vision Board</title>
   <style>
-    :root {
-      --yellow-light: #FFFCB3;
-      --yellow: #FFE54C;
-      --yellow-accent: #FFD633;
-      --yellow-deep: #FFC107;
-      --charcoal: #2E2E2E;
-      --transition: 0.25s ease;
+    :root{
+      --bg0:#0b0b10;
+      --bg1:#0f1220;
+      --card:#121425cc;
+      --text:#f6f7fb;
+      --muted:#b9bdd3;
+      --line:#ffffff14;
+      --shadow: 0 18px 45px rgba(0,0,0,.45);
+      --radius: 18px;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    /* ---- BACKGROUND SLIDESHOW ---- */
-    #bg-slideshow {
-      position: fixed; inset: 0; z-index: -1; overflow: hidden;
-    }
-    #bg-slideshow img {
-      position: absolute;  inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; opacity: 0;
-      animation: slideShow 90s infinite;
-    }
-    #bg-slideshow img:nth-child(1) { animation-delay: 0s; }
-    #bg-slideshow img:nth-child(2) { animation-delay: 10s; }
-    #bg-slideshow img:nth-child(3) { animation-delay: 20s; }
-    #bg-slideshow img:nth-child(4) { animation-delay: 30s; }
-    #bg-slideshow img:nth-child(5) { animation-delay:  40s; }
-    #bg-slideshow img:nth-child(6) { animation-delay:  50s; }
-    #bg-slideshow img:nth-child(7) { animation-delay:  60s; }
-    #bg-slideshow img:nth-child(8) { animation-delay:  70s; }
-    #bg-slideshow img:nth-child(9) { animation-delay:  80s; }
-    #bg-slideshow img:nth-child(10) { animation-delay:  90s; }
-    @keyframes slideShow {
-      0%, 30%, 100% { opacity: 0; }
-      5%, 25%      { opacity: 1; }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 10% 10%, #7c3aed33, transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, #22c55e22, transparent 55%),
+        radial-gradient(900px 600px at 30% 90%, #60a5fa22, transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
     }
 
-    /* yellow tint */
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background: var(--yellow-accent); z-index: -1;
+    /* Header */
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:28px 18px 42px;
+    }
+    header{
+      display:flex;
+      gap:18px;
+      align-items:flex-end;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(28px, 3.4vw, 44px);
+      letter-spacing:-0.02em;
+      line-height:1.05;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.4;
+      max-width:64ch;
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      color: var(--yellow-deep);
-      display: flex; flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem 1rem;
-      min-height: 60vh;
-      position: relative; overflow: hidden;
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff0b, #ffffff05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+    }
+    input[type="text"]{
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      width:220px;
+      font-size:13px;
+    }
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff10, #ffffff05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      transition: transform .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color:#ffffff26; }
+    .btn:active{ transform: translateY(0px); }
+
+    /* Masonry board */
+    .board{
+      column-count: 1;
+      column-gap: 14px;
+      margin-top:18px;
+    }
+    @media (min-width: 620px){ .board{ column-count:2; } }
+    @media (min-width: 980px){ .board{ column-count:3; } }
+    @media (min-width: 1200px){ .board{ column-count:4; } }
+
+    .card{
+      break-inside: avoid;
+      margin: 0 0 14px;
+      border-radius: var(--radius);
+      overflow:hidden;
+      position:relative;
+      background: #0d1020;
+      box-shadow: var(--shadow);
+      border:1px solid var(--line);
+      transform: translateZ(0);
+    }
+    .card .img{
+      width:100%;
+      display:block;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter:saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .card.tall .img{ aspect-ratio: 4 / 5; }
+    .card.wide .img{ aspect-ratio: 16 / 9; }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, transparent 45%, rgba(0,0,0,.55) 100%),
+        radial-gradient(800px 500px at 20% 20%, rgba(255,255,255,.10), transparent 40%);
+      pointer-events:none;
     }
 
-    header {
-      width: 100%; max-width: 800px;
-      background: rgba(255,229,76,0.1);
-      border: 4px dashed var(--yellow-accent);
-      border-radius: 1rem;
-      padding: 2rem; margin-bottom: 2rem;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-top: 15vh;
+    .content{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:14px 14px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
-    header h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 2rem; margin-bottom: .2rem;
+    .tagrow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
     }
-    header p {
-      font-size: 1.2rem; font-weight: 500;
+    .tag{
+      font-size:11px;
+      color:#f7f7ff;
+      border:1px solid #ffffff2a;
+      background:#00000033;
+      padding:6px 10px;
+      border-radius:999px;
+      backdrop-filter: blur(6px);
     }
-
-    .section {
-      display: none;
-      width: 100%; max-width: 600px;
-      background: rgba(255,255,255,0.1);
-      border: 2px dashed var(--yellow-accent);
-      border-radius: 1rem; padding: 2rem;
-      margin-bottom: 1.5rem;
-      position: relative; z-index: 1;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    .goal{
+      margin:0;
+      font-size:16px;
+      line-height:1.15;
+      letter-spacing:-0.01em;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
     }
-    .section.active { display: block;}
-
-    .section h2 {
-      font-family: 'Pacifico', cursive;
-      font-size: 1.5rem; color: var(--yellow-accent);
-      margin-bottom: 1rem;
-    }
-    label { display: block; margin: .75rem 0; font-weight: 500; }
-
-    input[type="text"],
-    input[type="date"],
-    select {
-      width: 100%; padding: .6rem;
-      border: 2px solid var(--yellow);
-      border-radius: .8rem;
-      font-size: 1rem;
-      transition: border-color var(--transition);
-    }
-    input:focus, select:focus {
-      border-color: var(--yellow-deep); outline: none;
+    .note{
+      margin:0;
+      color:rgba(255,255,255,.86);
+      font-size:12px;
+      line-height:1.35;
+      max-width: 52ch;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
     }
 
-    button {
-      background: var(--yellow-accent);
-      color: #fff; border: none;
-      border-radius: 1rem;
-      padding: .6rem 1.6rem;
-      font-size: 1rem; font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: background var(--transition), transform var(--transition);
-      margin-top: 1rem; position: relative; z-index: 1;
+    /* Tiny footer */
+    .footer{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      opacity:.95;
     }
-    button:hover {
-      background: var(--yellow-deep);
-      transform: translateY(-2px);
-    }
+    .footer a{ color: #d8dbff; text-decoration:none; border-bottom:1px solid #ffffff22; }
+    .footer a:hover{ border-bottom-color:#ffffff55; }
 
-    /* gallery */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem; justify-items: center;
-    }
-    .gallery-grid img {
-      width: 100%; max-width: 140px;
-      border: 2px dotted var(--yellow);
-      border-radius: .8rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform var(--transition), border-color var(--transition);
-    }
-    .gallery-grid img:hover {
-      transform: scale(1.05);
-      border-color: var(--yellow-deep);
-    }
-
-    /* sound prompt */
-    #sound-prompt {
-      position: fixed; inset: 0;
-      background: var(--yellow-light);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 1000;
-      font-size: 2rem; color: var(--charcoal);
-      cursor: pointer;
-      transition: opacity .5s, visibility .5s;
-    }
-    #sound-prompt.hidden {
-      opacity: 0; visibility: hidden;
-      pointer-events: none;
-    }
-
-    /* lightbox */
-    #lightbox {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.8);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; visibility: hidden;
-      transition: opacity .3s;
-      z-index: 1001;
-    }
-    #lightbox.visible {
-      opacity: 1; visibility: visible;
-    }
-    #lightbox img {
-      max-width: 90%; max-height: 90%;
-      border-radius: 1rem;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-    }
-    #lb-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: none; border: none;
-      font-size: 2rem; color: #fff;
-      cursor: pointer; z-index: 1002;
-      transition: transform var(--transition);
-    }
-    #lb-close:hover { transform: scale(1.2); }
-
-    /* confetti */
-    .confetti { font-size: 2rem; animation: float 3s ease-in-out infinite; }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-8px); }
+    /* Print-friendly */
+    @media print{
+      body{ background:#fff; color:#111; }
+      header, .footer, .controls{ display:none !important; }
+      .wrap{ max-width:100%; padding:0; }
+      .card{ box-shadow:none; border:1px solid #ddd; }
+      .overlay{ display:none; }
+      .content{ position:static; padding:12px; background:#fff; color:#111; }
+      .tag{ background:#f5f5f5; border-color:#ddd; color:#111; }
+      .note{ color:#333; text-shadow:none; }
+      .goal{ text-shadow:none; }
     }
   </style>
 </head>
+
 <body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>2026 Vision Board</h1>
+        <p class="subtitle">
+          A Pinterest-style board for your 10 goals. Tip: use the search to spotlight a theme (e.g., “thesis”, “fitness”, “travel”).
+        </p>
+      </div>
 
-  <!-- Background slideshow -->
-  <div id="bg-slideshow">
-    <img src="IMG_9924.jpeg" alt="">
-    <img src="IMG_2074.jpeg" alt="">
-    <img src="IMG_0529.jpeg" alt="">
-    <img src="us.png" alt="">
-    <img src="IMG_0495.jpeg" alt="">
-    <img src="IMG_0268.jpeg" alt="">
-    <img src="IMG_0170.jpeg" alt="">
-    <img src="IMG_0161.jpeg" alt="">
-    <img src="IMG_0108.jpeg" alt="">
-    <img src="IMG_0505.jpeg" alt="">
-  </div>
+      <div class="controls">
+        <div class="chip" title="Filter cards by text">
+          🔎
+          <input id="search" type="text" placeholder="Search goals…" />
+        </div>
+        <button class="btn" id="refresh" title="Refresh images">↻ Refresh Images</button>
+        <button class="btn" onclick="window.print()" title="Print / Save as PDF">🖨 Print</button>
+      </div>
+    </header>
 
-  <!-- Sound prompt overlay -->
-  <div id="sound-prompt">🎶 Sound ON and then CLICK</div>
+    <main class="board" id="board"></main>
 
-  <header>
-    <h1>🎂 Happy *almost* 22nd Birthday, Anthony!</h1>
-    <p>Let’s lock in this high-yield day, you absolute leg 🗓️</p>
-  </header>
-
-  <form action="https://formsubmit.co/saralaei2003@gmail.com" method="POST" onsubmit="return showThankYou();">
-    <!-- Section 1 -->
-    <div class="section active" id="section1">
-      <h2>📅 Choose a Date</h2>
-      <label for="date">Pick any day between June 14–21:</label>
-      <input type="date" id="date" name="Date" min="2025-06-14" max="2025-06-21" required>
-      <button type="button" onclick="nextSection()">Next ➡️</button>
-    </div>
-
-    <!-- Section 2 -->
-    <div class="section" id="section2">
-      <h2>🍽️ Dinner Options</h2>
-      <label><input type="radio" name="Dinner" value="Little Truffle" required> Little Truffle</label>
-      <label><input type="radio" name="Dinner" value="The North Room"> The North Room</label>
-      <label><input type="radio" name="Dinner" value="Moo moo"> Moo moo</label>
-      <label>Other: <input type="text" name="DinnerOther" placeholder="Your idea"></label>
-      <button type="button" onclick="prevSection()">⬅️ Back</button>
-      <button type="button" onclick="nextSection()">Next ➡️</button>
-    </div>
-
-    <!-- Section 3 -->
-    <div class="section" id="section3">
-      <h2>🎉 Activity Choices</h2>
-      <label><input type="radio" name="Activity" value="*mini* Golf" required> *mini* Golf</label>
-      <label><input type="radio" name="Activity" value="Bowling"> Bowling</label>
-      <label>Other: <input type="text" name="ActivityOther" placeholder="Your idea"></label>
-      <button type="button" onclick="prevSection()">⬅️ Back</button>
-      <button type="button" onclick="nextSection()">Next ➡️</button>
-    </div>
-
-    <!-- Section 4 -->
-    <div class="section" id="section4">
-      <h2>💕 Passenger princess for the day? 💅🚗</h2>
-      <label><input type="radio" name="Passenger" value="YASSSSS, born to slay ✨" required> YASSSSS, born to slay ✨</label>
-      <label><input type="radio" name="Passenger" value="OUI OUI, JE SUIS UNE PRINCESS 💁‍♀️👑✨"> OUI OUI, JE SUIS UNE PRINCESS 💁‍♀️👑✨</label>
-      <label>Other: <input type="text" name="PassengerOther" placeholder="Your idea"></label>
-      <button type="button" onclick="prevSection()">⬅️ Back</button>
-      <button type="button" onclick="nextSection()">Next ➡️</button>
-    </div>
-
-    <!-- Section 5 -->
-    <div class="section" id="section5">
-      <h2>💌 Send Your Plan</h2>
-      <input type="hidden" name="_subject" value="Anthony's Birthday Picks!">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://Watermelon132.github.io/Birthday">
-      <button type="button" onclick="prevSection()">⬅️ Back</button>
-      <button type="submit">💜 Send to Sara</button>
-    </div>
-  </form>
-
-  <!-- Gallery (Section 5) -->
-  <div class="section" id="gallery">
-    <h2>📸 Memories & Memes</h2>
-    <p>Click any photo to enlarge:</p>
-    <div class="gallery-grid">
-      <img src="us.png" alt="Us" data-full="us.png">
-      <img src="us.png" alt="Funny meme" data-full="us.png">
-      <img src="us.png" alt="Yellow Car" data-full="us.png">
+    <div class="footer">
+      <div>Made for <strong>Sara</strong> • New year: <strong>2026</strong></div>
+      <div>Images: Unsplash “source” links (auto-themed). You can replace any with your own URLs.</div>
     </div>
   </div>
-
-  <!-- Lightbox -->
-  <div id="lightbox">
-    <button id="lb-close">&times;</button>
-    <img src="" alt="Enlarged photo">
-  </div>
-
-  <!-- Audio -->
-  <audio id="bg-music" loop>
-    <source src="pinkpanthress_song.mp3" type="audio/mpeg">
-    Your browser doesn’t support audio.
-  </audio>
-
-  <canvas id="confetti-canvas"></canvas>
 
   <script>
-    // Audio enable
-    function enableMusic() {
-      document.getElementById('bg-music').play().catch(()=>{});
-      window.removeEventListener('click', enableMusic);
-    }
-    window.addEventListener('click', enableMusic);
+  const goals = [
+    { title:"Become valedictorian of my engineering cohort", tags:["Academic","Leadership","UQ"], note:"Show up early, build lecturer relationships, ship standout work.", query:"graduation university engineering award", shape:"tall" },
+    { title:"Reach my fitness goals: 50 kg + visible muscle definition", tags:["Gym","Tennis","Pilates","Sport"], note:"Train like an athlete: strength + mobility + consistency.", query:"fitness gym women training tennis pilates", shape:"wide" },
+    { title:"Find a suitable graduate job (Pilbara mines)", tags:["Career","Mining","Automation"], note:"Apply early. Strong portfolio. Clear relocation story.", query:"mining industrial automation engineering australia", shape:"tall" },
+    { title:"Write an amazing master’s thesis", tags:["Thesis","Research","Focus"], note:"Weekly milestones. Keep scope tight. Document everything.", query:"research writing study lab engineering", shape:"" },
+    { title:"Travel for uni purposes 2–3 times", tags:["Uni","Networking","Opportunities"], note:"Say yes to the rooms that change your trajectory.", query:"conference university networking travel", shape:"wide" },
+    { title:"Travel to Europe + NZ with family", tags:["Family","Europe","New Zealand"], note:"Plan early, book smart, collect memories not stress.", query:"europe travel family city architecture", shape:"" },
+    { title:"Plan a trip with a friend", tags:["Friendship","Fun","Adventure"], note:"Pick dates first. Then choose the place. Keep it simple.", query:"friends travel roadtrip adventure", shape:"tall" },
+    { title:"Publish my first paper/article", tags:["Publication","Impact","Credibility"], note:"One strong story. Clean results. Ruthless editing.", query:"science journal paper publication research", shape:"" },
+    { title:"Invest: buy a house + ETFs", tags:["Wealth","Property","ETFs"], note:"Automate investing. Track cashflow. Learn the numbers.", query:"finance investment property realestate stockmarket", shape:"wide" },
+    { title:"Learn to work on cars", tags:["Skills","Hands-on","Mechanics"], note:"Start with tools, safety, fluids, brakes, diagnostics.", query:"car mechanic garage tools engine", shape:"tall" }
+  ];
 
-    // Hide sound prompt
-    const prompt = document.getElementById('sound-prompt');
-    prompt.addEventListener('click', () => {
-      prompt.classList.add('hidden');
-      setTimeout(() => prompt.remove(), 600);
+  const boardEl = document.getElementById("board");
+  const searchEl = document.getElementById("search");
+  const refreshEl = document.getElementById("refresh");
+
+  // robust image sources
+  function sourcesFor(goal, seed){
+    const q = encodeURIComponent(goal.query);
+    // 1) Picsum: extremely reliable (random beautiful photos, not query-based)
+    const picsumId = (seed % 1000) + 1;
+    const picsum = `https://picsum.photos/id/${picsumId}/1200/900`;
+
+    // 2) Unsplash source (query-based) – may be blocked by extensions
+    const unsplashSource = `https://source.unsplash.com/1200x900/?${q}&sig=${seed}`;
+
+    // 3) Final fallback placeholder
+    const placeholder = `https://placehold.co/1200x900/png?text=${encodeURIComponent(goal.title)}`;
+
+    return [picsum, unsplashSource, placeholder];
+  }
+
+  function setImageWithFallback(imgEl, urls){
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) return;
+      const url = urls[i++];
+      imgEl.src = url;
+    };
+    imgEl.onerror = tryNext;
+    tryNext();
+  }
+
+  function makeCard(goal, idx){
+    const card = document.createElement("article");
+    card.className = `card ${goal.shape || ""}`.trim();
+    card.dataset.search = `${goal.title} ${goal.tags.join(" ")} ${goal.note}`.toLowerCase();
+
+    // gradient “skeleton” while image loads
+    card.style.background = `
+      radial-gradient(800px 500px at 10% 10%, rgba(255,255,255,.10), transparent 45%),
+      linear-gradient(135deg, rgba(124,58,237,.25), rgba(34,197,94,.18), rgba(96,165,250,.20))
+    `;
+
+    const img = document.createElement("img");
+    img.className = "img";
+    img.alt = goal.title;
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
+
+    const seed = (Date.now() + idx * 97) % 100000;
+    const urls = sourcesFor(goal, seed);
+    setImageWithFallback(img, urls);
+
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
+
+    const content = document.createElement("div");
+    content.className = "content";
+
+    const tagrow = document.createElement("div");
+    tagrow.className = "tagrow";
+    goal.tags.forEach(t => {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = t;
+      tagrow.appendChild(tag);
     });
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        prompt.classList.add('hidden');
-        setTimeout(() => prompt.remove(), 600);
-      }, 5000);
+
+    const h = document.createElement("p");
+    h.className = "goal";
+    h.textContent = goal.title;
+
+    const note = document.createElement("p");
+    note.className = "note";
+    note.textContent = goal.note;
+
+    content.appendChild(tagrow);
+    content.appendChild(h);
+    content.appendChild(note);
+
+    card.appendChild(img);
+    card.appendChild(overlay);
+    card.appendChild(content);
+
+    // Optional: click opens current image
+    card.addEventListener("click", () => window.open(img.src, "_blank", "noopener,noreferrer"));
+
+    return card;
+  }
+
+  function render(){
+    boardEl.innerHTML = "";
+    goals.forEach((g, i) => boardEl.appendChild(makeCard(g, i)));
+  }
+
+  function filterBoard(text){
+    const q = text.trim().toLowerCase();
+    const cards = boardEl.querySelectorAll(".card");
+    cards.forEach(card => {
+      const hit = card.dataset.search.includes(q);
+      card.style.display = hit ? "" : "none";
     });
+  }
 
-    // Section navigation
-    let current = 1;
-    function nextSection() {
-      document.getElementById(`section${current}`).classList.remove('active');
-      current++;
-      if (current === 1) {
-        // reveal gallery when we hit 5
-        document.getElementById('gallery').classList.add('active');
-      } else {
-        document.getElementById(`section${current}`).classList.add('active');
-      }
-    }
-    function prevSection() {
-      if (current === 1) {
-        document.getElementById('gallery').classList.remove('active');
-        current = 4;
-        document.getElementById('section4').classList.add('active');
-      } else {
-        document.getElementById(`section${current}`).classList.remove('active');
-        current--;
-        document.getElementById(`section${current}`).classList.add('active');
-      }
-    }
+  searchEl.addEventListener("input", (e) => filterBoard(e.target.value));
+  refreshEl.addEventListener("click", render);
 
-    // Thank-you screen
-    function showThankYou() {
-      setTimeout(() => {
-        document.body.innerHTML = `
-          <div style="text-align:center; padding:4rem; background:var(--yellow-light);">
-            <h1 class="confetti">🎉 Thanks, Anthony! 🎂</h1>
-            <p>Your birthday picks are on their way! 💛</p>
-            <img src="us.png" alt="Cake" style="width:150px; margin-top:1rem;">
-          </div>`;
-      }, 15000);
-      return true;
-    }
+  render();
+</script>
 
-    // Confetti canvas
-    const canvas = document.getElementById("confetti-canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.style.position = 'fixed';
-    canvas.style.top = 0; canvas.style.left = 0;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.zIndex = 998;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const confetti = [];
-    const colors = ["#D8B4F8","#B388EB","#9F79EE","#C084FC","#E9D5FF"];
-    for (let i=0; i<150; i++) {
-      confetti.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height - canvas.height,
-        r: Math.random()*6 + 4,
-        d: Math.random()*40 + 10,
-        color: colors[Math.floor(Math.random()*colors.length)],
-        tilt: Math.random()*10 - 10,
-        tiltAngle: 0,
-        tiltAngleIncrement: Math.random()*0.1 + 0.05
-      });
-    }
-    function drawConfetti() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      confetti.forEach((c,i)=>{
-        ctx.beginPath();
-        ctx.lineWidth = c.r/2;
-        ctx.strokeStyle = c.color;
-        ctx.moveTo(c.x + c.tilt + c.r/4, c.y);
-        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r/4);
-        ctx.stroke();
-      });
-      updateConfetti();
-    }
-    function updateConfetti() {
-      confetti.forEach((c,i)=>{
-        c.tiltAngle += c.tiltAngleIncrement;
-        c.y += (Math.cos(c.d)+3+c.r/2)/2;
-        c.x += Math.sin(0.5);
-        c.tilt = Math.sin(c.tiltAngle - i)*15;
-        if (c.y > canvas.height) {
-          c.y = -10;
-          c.x = Math.random()*canvas.width;
-        }
-      });
-    }
-    let animation;
-    function animateConfetti() {
-      drawConfetti();
-      animation = requestAnimationFrame(animateConfetti);
-    }
-    setTimeout(()=>{
-      animateConfetti();
-      setTimeout(()=>{
-        cancelAnimationFrame(animation);
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-      }, 300);
-    },15000);
-
-    // Lightbox
-    const galleryImgs = document.querySelectorAll('.gallery-grid img');
-    const lightbox    = document.getElementById('lightbox');
-    const lbImg       = lightbox.querySelector('img');
-    const lbClose     = document.getElementById('lb-close');
-
-    galleryImgs.forEach(img => {
-      img.addEventListener('click', () => {
-        lbImg.src = img.dataset.full;
-        lightbox.classList.add('visible');
-      });
-    });
-    lbClose.addEventListener('click', () => lightbox.classList.remove('visible'));
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) lightbox.classList.remove('visible');
-    });
-  </script>
 </body>
 </html>
