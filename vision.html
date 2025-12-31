@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sara’s 2026 Vision Board</title>
+  <style>
+    :root{
+      --bg0:#0b0b10;
+      --bg1:#0f1220;
+      --card:#121425cc;
+      --text:#f6f7fb;
+      --muted:#b9bdd3;
+      --line:#ffffff14;
+      --shadow: 0 18px 45px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 10% 10%, #7c3aed33, transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, #22c55e22, transparent 55%),
+        radial-gradient(900px 600px at 30% 90%, #60a5fa22, transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* Header */
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:28px 18px 42px;
+    }
+    header{
+      display:flex;
+      gap:18px;
+      align-items:flex-end;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(28px, 3.4vw, 44px);
+      letter-spacing:-0.02em;
+      line-height:1.05;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.4;
+      max-width:64ch;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff0b, #ffffff05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+    }
+    input[type="text"]{
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      width:220px;
+      font-size:13px;
+    }
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff10, #ffffff05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      transition: transform .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color:#ffffff26; }
+    .btn:active{ transform: translateY(0px); }
+
+    /* Masonry board */
+    .board{
+      column-count: 1;
+      column-gap: 14px;
+      margin-top:18px;
+    }
+    @media (min-width: 620px){ .board{ column-count:2; } }
+    @media (min-width: 980px){ .board{ column-count:3; } }
+    @media (min-width: 1200px){ .board{ column-count:4; } }
+
+    .card{
+      break-inside: avoid;
+      margin: 0 0 14px;
+      border-radius: var(--radius);
+      overflow:hidden;
+      position:relative;
+      background: #0d1020;
+      box-shadow: var(--shadow);
+      border:1px solid var(--line);
+      transform: translateZ(0);
+    }
+    .card .img{
+      width:100%;
+      display:block;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter:saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .card.tall .img{ aspect-ratio: 4 / 5; }
+    .card.wide .img{ aspect-ratio: 16 / 9; }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, transparent 45%, rgba(0,0,0,.55) 100%),
+        radial-gradient(800px 500px at 20% 20%, rgba(255,255,255,.10), transparent 40%);
+      pointer-events:none;
+    }
+
+    .content{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:14px 14px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .tagrow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .tag{
+      font-size:11px;
+      color:#f7f7ff;
+      border:1px solid #ffffff2a;
+      background:#00000033;
+      padding:6px 10px;
+      border-radius:999px;
+      backdrop-filter: blur(6px);
+    }
+    .goal{
+      margin:0;
+      font-size:16px;
+      line-height:1.15;
+      letter-spacing:-0.01em;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
+    }
+    .note{
+      margin:0;
+      color:rgba(255,255,255,.86);
+      font-size:12px;
+      line-height:1.35;
+      max-width: 52ch;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
+    }
+
+    /* Tiny footer */
+    .footer{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      opacity:.95;
+    }
+    .footer a{ color: #d8dbff; text-decoration:none; border-bottom:1px solid #ffffff22; }
+    .footer a:hover{ border-bottom-color:#ffffff55; }
+
+    /* Print-friendly */
+    @media print{
+      body{ background:#fff; color:#111; }
+      header, .footer, .controls{ display:none !important; }
+      .wrap{ max-width:100%; padding:0; }
+      .card{ box-shadow:none; border:1px solid #ddd; }
+      .overlay{ display:none; }
+      .content{ position:static; padding:12px; background:#fff; color:#111; }
+      .tag{ background:#f5f5f5; border-color:#ddd; color:#111; }
+      .note{ color:#333; text-shadow:none; }
+      .goal{ text-shadow:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>2026 Vision Board</h1>
+        <p class="subtitle">
+          A Pinterest-style board for your 10 goals. Tip: use the search to spotlight a theme (e.g., “thesis”, “fitness”, “travel”).
+        </p>
+      </div>
+
+      <div class="controls">
+        <div class="chip" title="Filter cards by text">
+          🔎
+          <input id="search" type="text" placeholder="Search goals…" />
+        </div>
+        <button class="btn" id="refresh" title="Refresh images">↻ Refresh Images</button>
+        <button class="btn" onclick="window.print()" title="Print / Save as PDF">🖨 Print</button>
+      </div>
+    </header>
+
+    <main class="board" id="board"></main>
+
+    <div class="footer">
+      <div>Made for <strong>Sara</strong> • New year: <strong>2026</strong></div>
+      <div>Images: Unsplash “source” links (auto-themed). You can replace any with your own URLs.</div>
+    </div>
+  </div>
+
+  <script>
+    // Change your name here if you want it shown elsewhere later
+    const OWNER_NAME = "Sara";
+
+    // Add / edit goals here
+    const goals = [
+      {
+        title: "Become valedictorian of my engineering cohort",
+        tags: ["Academic", "Leadership", "UQ"],
+        note: "Show up early, build lecturer relationships, and ship standout work.",
+        query: "graduation,university,engineering,award",
+        shape: "tall"
+      },
+      {
+        title: "Reach my fitness goals: 50 kg + visible muscle definition",
+        tags: ["Gym", "Tennis", "Pilates", "Sport"],
+        note: "Train like an athlete: strength + mobility + consistency.",
+        query: "gym,fitness,women,training,tennis,pilates",
+        shape: "wide"
+      },
+      {
+        title: "Find a suitable graduate job (Pilbara mines)",
+        tags: ["Career", "Mining", "Automation"],
+        note: "Applications early, strong portfolio, and clear relocation story.",
+        query: "mining,industrial,automation,engineering,australia",
+        shape: "tall"
+      },
+      {
+        title: "Write an amazing master’s thesis",
+        tags: ["Thesis", "Research", "Focus"],
+        note: "Weekly milestones. Keep the scope tight. Document everything.",
+        query: "research,writing,study,lab,engineering",
+        shape: ""
+      },
+      {
+        title: "Travel for uni purposes 2–3 times",
+        tags: ["Uni", "Networking", "Opportunities"],
+        note: "Say yes to the rooms that change your trajectory.",
+        query: "conference,university,networking,travel",
+        shape: "wide"
+      },
+      {
+        title: "Travel to Europe + NZ with family",
+        tags: ["Family", "Europe", "New Zealand"],
+        note: "Plan early, book smart, collect memories not stress.",
+        query: "europe,travel,family,city,architecture",
+        shape: ""
+      },
+      {
+        title: "Plan a trip with a friend",
+        tags: ["Friendship", "Fun", "Adventure"],
+        note: "Pick dates first. Then choose the place. Keep it simple.",
+        query: "friends,travel,roadtrip,adventure",
+        shape: "tall"
+      },
+      {
+        title: "Publish my first paper/article",
+        tags: ["Publication", "Impact", "Credibility"],
+        note: "One strong story, clean results, and ruthless editing.",
+        query: "science,journal,paper,publication,research",
+        shape: ""
+      },
+      {
+        title: "Invest: buy a house + ETFs",
+        tags: ["Wealth", "Property", "ETFs"],
+        note: "Automate investing. Track cashflow. Learn the numbers.",
+        query: "finance,investment,property,realestate,stockmarket",
+        shape: "wide"
+      },
+      {
+        title: "Learn to work on cars",
+        tags: ["Skills", "Hands-on", "Mechanics"],
+        note: "Start with basics: tools, safety, fluids, brakes, diagnostics.",
+        query: "car,mechanic,garage,tools,engine",
+        shape: "tall"
+      }
+    ];
+
+    const boardEl = document.getElementById("board");
+    const searchEl = document.getElementById("search");
+    const refreshEl = document.getElementById("refresh");
+
+    // Uses Unsplash Source to pull an on-theme photo without needing an API key.
+    // We add a cache-buster so refresh changes images.
+    function imageUrlFor(query, seed){
+      const q = encodeURIComponent(query);
+      return `https://source.unsplash.com/1200x900/?${q}&sig=${seed}`;
+    }
+
+    function makeCard(goal, idx){
+      const card = document.createElement("article");
+      card.className = `card ${goal.shape || ""}`.trim();
+      card.dataset.search = `${goal.title} ${goal.tags.join(" ")} ${goal.note}`.toLowerCase();
+
+      const img = document.createElement("img");
+      img.className = "img";
+      img.alt = goal.title;
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      img.src = imageUrlFor(goal.query, Date.now() + idx);
+
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+
+      const content = document.createElement("div");
+      content.className = "content";
+
+      const tagrow = document.createElement("div");
+      tagrow.className = "tagrow";
+      goal.tags.forEach(t => {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = t;
+        tagrow.appendChild(tag);
+      });
+
+      const h = document.createElement("p");
+      h.className = "goal";
+      h.textContent = goal.title;
+
+      const note = document.createElement("p");
+      note.className = "note";
+      note.textContent = goal.note;
+
+      content.appendChild(tagrow);
+      content.appendChild(h);
+      content.appendChild(note);
+
+      card.appendChild(img);
+      card.appendChild(overlay);
+      card.appendChild(content);
+
+      // click to open image in new tab (optional)
+      card.addEventListener("click", () => window.open(img.src, "_blank", "noopener,noreferrer"));
+
+      return card;
+    }
+
+    function render(){
+      boardEl.innerHTML = "";
+      goals.forEach((g, i) => boardEl.appendChild(makeCard(g, i)));
+    }
+
+    function filterBoard(text){
+      const q = text.trim().toLowerCase();
+      const cards = boardEl.querySelectorAll(".card");
+      cards.forEach(card => {
+        const hit = card.dataset.search.includes(q);
+        card.style.display = hit ? "" : "none";
+      });
+    }
+
+    // Events
+    searchEl.addEventListener("input", (e) => filterBoard(e.target.value));
+    refreshEl.addEventListener("click", render);
+
+    // Init
+    render();
+  </script>
+</body>
+</html>
