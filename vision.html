@@ -327,9 +327,10 @@
     // Uses Unsplash Source to pull an on-theme photo without needing an API key.
     // We add a cache-buster so refresh changes images.
     function imageUrlFor(query, seed){
-      const q = encodeURIComponent(query);
-      return `https://source.unsplash.com/1200x900/?${q}&sig=${seed}`;
-    }
+    // Uses Unsplash "featured" endpoint via the CDN, tends to load more reliably
+    const q = encodeURIComponent(query);
+    return `https://images.unsplash.com/featured/?${q}&sig=${seed}`;
+  }
 
     function makeCard(goal, idx){
       const card = document.createElement("article");
